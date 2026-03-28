@@ -39,7 +39,7 @@ class ETLJobOffers(ETL):
         pass
 
 
-class ETLLinkedinProfiles():
+class ETLLinkedinProfiles(ETL):
     """
     The role of this ETL is to get all data relatd to linkedin profiles
     """
