@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from jospy import scrape_jobs
 
 class ETLAdapter(ABC):
     """
