@@ -19,7 +19,9 @@ class ETLAdapterLibraryJobSpy(ETLAdapter):
         pass
 
 
-class ETLAdapterAPIJobCloud():
+class ETLAdapterAPIJobCloud(ETLAdapter):
     """
     This class makes easy to use the API of the company JobCloud which can get data from Jobs.ch or Jobup.ch
     """
+    def request():
+        pass
