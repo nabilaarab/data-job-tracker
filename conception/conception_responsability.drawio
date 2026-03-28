@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:149.0) Gecko/20100101 Firefox/149.0" version="29.6.6">
+  <diagram name="Page-1" id="-F-5BqT3o_nAeNSYfrH6">
+    <mxGraphModel dx="960" dy="542" grid="0" gridSize="36" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="980" pageHeight="690" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="-xxw8FdHdFTfAse4Fj8m-2" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;labelBackgroundColor=none;fillColor=#182E3E;strokeColor=#FFFFFF;fontColor=#FFFFFF;" value="&lt;div&gt;Extract&lt;/div&gt;&lt;div&gt;_______________________&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Extract Data from Linkedin, Indeed, ...&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Extract profiles from Linkedin&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Look for company valuable for spontaneous application&lt;/div&gt;" vertex="1">
+          <mxGeometry height="171" width="171" x="98" y="284" as="geometry" />
+        </mxCell>
+        <mxCell id="-xxw8FdHdFTfAse4Fj8m-3" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;labelBackgroundColor=none;fontColor=default;strokeColor=#23445D;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="289" y="366" as="sourcePoint" />
+            <mxPoint x="354" y="366" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-xxw8FdHdFTfAse4Fj8m-4" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;labelBackgroundColor=none;fillColor=#182E3E;strokeColor=#FFFFFF;fontColor=#FFFFFF;" value="&lt;div&gt;Transform&lt;/div&gt;&lt;div&gt;_______________________&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Clean data, remove dust, and create a common format" vertex="1">
+          <mxGeometry height="171" width="171" x="368" y="284" as="geometry" />
+        </mxCell>
+        <mxCell id="-xxw8FdHdFTfAse4Fj8m-5" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;labelBackgroundColor=none;fontColor=default;strokeColor=#23445D;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="564" y="367" as="sourcePoint" />
+            <mxPoint x="629" y="367" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-xxw8FdHdFTfAse4Fj8m-6" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;labelBackgroundColor=none;fillColor=#182E3E;strokeColor=#FFFFFF;fontColor=#FFFFFF;" value="&lt;div&gt;Load&lt;/div&gt;&lt;div&gt;_______________________&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Load the data in an Excel/Database" vertex="1">
+          <mxGeometry height="171" width="171" x="651" y="284" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

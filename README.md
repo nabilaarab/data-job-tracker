@@ -1,0 +1,1 @@
+This project allows you to scrape data in order to detect job offers, find profiles on LinkedIn, and identify companies that are valuable for spontaneous applications. All of this can be done using only a few keywords.
