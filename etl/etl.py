@@ -16,7 +16,7 @@ class ETL(ABC):
     def load():
         pass
 
-    def run_all():
+    def run_all(self):
         """
         run extract then transform then load.
         """
