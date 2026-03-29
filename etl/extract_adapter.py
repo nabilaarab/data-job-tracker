@@ -1,4 +1,5 @@
 import pandas as pd
+import requests
 from abc import ABC, abstractmethod
 from jobspy import scrape_jobs
 from etl.models import ETLConfig
@@ -33,9 +34,30 @@ class ExtractAdapterLibraryJobSpy(ExtractAdapter):
         )
 
 
-class ExtractAdapterAPIJobCloud(ExtractAdapter):
+class ExtractAdapterAPIJobCloud(ABC, ExtractAdapter):
     """
     This class makes easy to use the API of the company JobCloud which can get data from Jobs.ch or Jobup.ch
     """
-    def request(etl_config: ETLConfig) -> pd.DataFrame:
-        pass
+    _URL = None
+    _HEADERS = None
+    _PARAMS = None
+    
+    @staticmethod
+    def request(
+        etl_config: ETLConfig,
+        location:str, 
+        key_word:str
+    ) -> pd.DataFrame:
+        """
+        """
+
+        response = requests.get(
+            ExtractAdapterAPIJobCloud._URL, 
+            headers=ExtractAdapterAPIJobCloud._HEADERS, 
+            params=ExtractAdapterAPIJobCloud._PARAMS
+        )
+
+class ExtractAdapterAPIJobUp(ExtractAdapterAPIJobCloud):
+    """
+    """
+    pass
