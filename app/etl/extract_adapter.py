@@ -34,7 +34,7 @@ class ExtractAdapterLibraryJobSpy(ExtractAdapter):
         )
 
 
-class ExtractAdapterAPIJobCloud(ABC, ExtractAdapter):
+class ExtractAdapterAPIJobCloud(ExtractAdapter):
     """
     This class makes easy to use the API of the company JobCloud which can get data from Jobs.ch or Jobup.ch
     """
