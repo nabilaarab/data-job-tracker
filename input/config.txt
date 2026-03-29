@@ -5,7 +5,7 @@
 
 ######################## Paramètres de la phase d'extraction ########################
 
-# 
+# Sites used : Linkedin, Indeed, jobs.ch, jobup.ch
 site_names = Linkedin, Indeed
 
 # Localisation des offres d'emploi

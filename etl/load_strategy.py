@@ -4,7 +4,7 @@ from datetime import datetime
 from openpyxl import load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment
 
-class ETLLoaderStrategy(ABC):
+class LoadStrategy(ABC):
     """
     The responsability of this class is to load the data by using several method: Excel, Database, etc... 
     """
@@ -13,7 +13,7 @@ class ETLLoaderStrategy(ABC):
         pass
 
 
-class ETLLoaderStrategyDatabase(ETLLoaderStrategy):
+class LoadStrategyDatabase(LoadStrategy):
     """
     The responsability of this class is to load data in a database
     """
@@ -21,7 +21,7 @@ class ETLLoaderStrategyDatabase(ETLLoaderStrategy):
         pass
 
 
-class ETLLoaderStrategyExcel(ETLLoaderStrategy):
+class LoadStrategyExcel(LoadStrategy):
     """
     The responsability of this class is to load data in an excel
     """
@@ -32,7 +32,7 @@ class ETLLoaderStrategyExcel(ETLLoaderStrategy):
         df.to_excel(filepath, index=False)
         
         # Add decoration
-        ETLLoaderStrategyExcel.__decoration(filepath)
+        LoadStrategyExcel.__decoration(filepath)
 
     def __decoration(filepath):
         wb = load_workbook(filepath)

@@ -1,7 +1,7 @@
 import pandas as pd
 from abc import ABC, abstractmethod
-from etl.etl_adapter import ETLAdapterLibraryJobSpy, ETLAdapterAPIJobCloud
-from etl.etl_loader_strategy import ETLLoaderStrategy, ETLLoaderStrategyExcel
+from etl.extract_adapter import ExtractAdapterLibraryJobSpy, ExtractAdapterAPIJobCloud
+from etl.load_strategy import LoadStrategy, LoadStrategyExcel
 from etl.utils import load_config
 from typing import List
 
@@ -10,7 +10,7 @@ class ETL(ABC):
     It is an abstract class which explain the behavior of an ETL.
     """
     def __init__(self):
-        self.loader_strategies: List[ETLLoaderStrategy] = [ETLLoaderStrategyExcel]
+        self.loader_strategies: List[LoadStrategy] = [LoadStrategyExcel]
 
     @abstractmethod
     def extract(self):
@@ -39,7 +39,7 @@ class ETLJobOffers(ETL):
     """
     def __init__(self, config=None):
         super().__init__()
-        self.extractors = [ETLAdapterLibraryJobSpy]
+        self.extractors = [ExtractAdapterLibraryJobSpy]
 
         if config is None:
             self.config = load_config()
@@ -50,7 +50,15 @@ class ETLJobOffers(ETL):
         """
         data = {}
         for extract_method in self.extractors:
-            data[ETLAdapterLibraryJobSpy] = extract_method.request(self.config)
+            results = []
+            for location in self.config.locations:
+                for key_word in self.config.key_words:
+                    print(f"Search {key_word} in {location}")
+
+                    jobs = extract_method.request(self.config, location, key_word)
+                    results.append(jobs)
+                    
+            data[ExtractAdapterLibraryJobSpy] = pd.concat(results, ignore_index=True)
 
         return data
 
@@ -58,12 +66,12 @@ class ETLJobOffers(ETL):
         """
         """
         # Data treatment from JoSpy library
-        data_jobspy = data_extracted.get(ETLAdapterLibraryJobSpy)
+        data_jobspy = data_extracted.get(ExtractAdapterLibraryJobSpy)
         if data_jobspy is not None:
             pass
         
         # Data treatment from JobCloud APIs
-        data_jobcloud = data_extracted.get(ETLAdapterAPIJobCloud)
+        data_jobcloud = data_extracted.get(ExtractAdapterAPIJobCloud)
         if data_jobcloud is not None:
             pass
 
