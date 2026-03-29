@@ -7,7 +7,7 @@ class ETLConfig:
     Paramètres lus depuis config.txt 
     """
     # Parameter of extract phase
-    search_term: str = ""
+    key_words: List[str] = field(default_factory=list)
     site_names: List[str] = field(default_factory=list)
     locations: List[str] = field(default_factory=list)
     location_countries: Dict[str, str] = field(default_factory=dict)

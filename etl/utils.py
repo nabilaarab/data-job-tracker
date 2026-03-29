@@ -1,9 +1,20 @@
 from etl.models import ETLConfig
 
-def load_config(filepath: str = "input/config.txt") -> ETLConfig:
+def load_config(
+        filepath_config: str = "input/config.txt", 
+        filepath_keywords: str = "input/key_words_job_offers.txt"
+    ) -> ETLConfig:
     raw = {}
 
-    with open(filepath, "r", encoding="utf-8") as f:
+    # Read the file of key words
+    with open(filepath_keywords, "r", encoding="utf-8") as f:
+        key_words = []
+        for line in f:
+            key_words.append(line.strip())
+        raw["key_words"] = key_words
+
+    # Read the file of configuration
+    with open(filepath_config, "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if not line or line.startswith("#"):
@@ -39,7 +50,7 @@ def load_config(filepath: str = "input/config.txt") -> ETLConfig:
                 proxies.append(p)
 
     return ETLConfig(
-        search_term=raw.get("search_term", ""),
+        key_words=raw.get("key_words", []),
         site_names=[s.strip() for s in raw.get("site_names", "").split(",") if s.strip()],
         locations=locations,
         location_countries=location_countries,

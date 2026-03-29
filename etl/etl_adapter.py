@@ -20,22 +20,24 @@ class ETLAdapterLibraryJobSpy(ETLAdapter):
     """
 
     def request(self, etl_config: ETLConfig):
-        
         results = []
         for location in etl_config.locations:
             country = etl_config.location_countries[location]
 
-            jobs = scrape_jobs(
-                site_name=etl_config.site_names,
-                search_term=etl_config.search_term,
-                location=location,
-                country_indeed=country,
-                results_wanted=etl_config.max_results_per_platform,
-                hours_old=24 * etl_config.posted_within_days,
-                linkedin_fetch_description=True,
-                proxies=etl_config.proxies,
-            )
-            results.append(jobs)
+            for key_word in etl_config.key_words:
+                print(f"Search {key_word} in {location}")
+
+                jobs = scrape_jobs(
+                    site_name=etl_config.site_names,
+                    search_term=key_word,
+                    location=location,
+                    country_indeed=country,
+                    results_wanted=etl_config.max_results_per_platform,
+                    hours_old=24 * etl_config.posted_within_days,
+                    linkedin_fetch_description=True,
+                    proxies=etl_config.proxies,
+                )
+                results.append(jobs)
 
         return pd.concat(results, ignore_index=True)
 

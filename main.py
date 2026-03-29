@@ -12,3 +12,4 @@ etl_adapter = ETLAdapterLibraryJobSpy()
 res: pd.DataFrame = etl_adapter.request(etl_config)
 
 print(type(res))
+print(res)
