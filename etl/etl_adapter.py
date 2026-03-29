@@ -10,7 +10,7 @@ class ETLAdapter(ABC):
     It makes easy to use some library or API for ETL classes
     """
     @abstractmethod
-    def request(self, etl_config: ETLConfig):
+    def request(etl_config: ETLConfig) -> pd.DataFrame:
         pass
 
 
@@ -19,7 +19,7 @@ class ETLAdapterLibraryJobSpy(ETLAdapter):
     This class makes Easy to use the Library JobSpy and then get job offers from Linkedin or Indeed.
     """
 
-    def request(self, etl_config: ETLConfig):
+    def request(etl_config: ETLConfig) -> pd.DataFrame:
         results = []
         for location in etl_config.locations:
             country = etl_config.location_countries[location]
@@ -38,13 +38,14 @@ class ETLAdapterLibraryJobSpy(ETLAdapter):
                     proxies=etl_config.proxies,
                 )
                 results.append(jobs)
-
+                
         return pd.concat(results, ignore_index=True)
+
 
 
 class ETLAdapterAPIJobCloud(ETLAdapter):
     """
     This class makes easy to use the API of the company JobCloud which can get data from Jobs.ch or Jobup.ch
     """
-    def request(self, etl_config: ETLConfig):
+    def request(etl_config: ETLConfig) -> pd.DataFrame:
         pass
