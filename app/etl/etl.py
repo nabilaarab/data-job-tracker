@@ -1,7 +1,7 @@
 import pandas as pd
 from abc import ABC, abstractmethod
-from etl.extract_adapter import ExtractAdapterLibraryJobSpy, ExtractAdapterAPIJobCloud
-from etl.load_strategy import LoadStrategy, LoadStrategyExcel
+from etl.extract.extract_adapter import ExtractAdapterLibraryJobSpy, ExtractAdapterAPIJobCloud
+from etl.load.load_strategy import LoadStrategy, LoadStrategyExcel
 from etl.utils import load_config
 from typing import List
 

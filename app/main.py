@@ -1,5 +1,5 @@
 from etl.etl import ETLJobOffers
-from etl.extract_adapter import ExtractAdapterLibraryJobSpy
+from etl.extract.extract_adapter import ExtractAdapterLibraryJobSpy
 from etl.utils import load_config
 import pandas as pd
 
