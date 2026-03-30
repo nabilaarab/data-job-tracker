@@ -8,3 +8,6 @@ airflow.cfg
 **/__pycache__/
 *.pyc
 *.env
+
+# Txt
+app/etl/input/config.local.txt
