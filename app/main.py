@@ -1,22 +1,26 @@
-from etl.etl import ETLJobOffers
-from etl.extract.extract_adapter import ExtractAdapterLibraryJobSpy
-from etl.utils import load_config
-import pandas as pd
+# from etl.etl import ETLJobOffers
+# from etl.extract.extract_adapter import ExtractAdapterLibraryJobSpy
+# from etl.utils import load_config
+# import pandas as pd
 
 
-# Get config.txt
-# etl_config = load_config()
-# print(etl_config)
+# # Get config.txt
+# # etl_config = load_config()
+# # print(etl_config)
 
 
-# etl_adapter = ETLAdapterLibraryJobSpy()
-# res: pd.DataFrame = etl_adapter.request(etl_config)
+# # etl_adapter = ETLAdapterLibraryJobSpy()
+# # res: pd.DataFrame = etl_adapter.request(etl_config)
 
-# print(type(res))
-# print(res)
+# # print(type(res))
+# # print(res)
 
 
 
-etl_joboffers = ETLJobOffers()
+# etl_joboffers = ETLJobOffers()
 
-etl_joboffers.run_all()
+# etl_joboffers.run_all()
+
+from dags.etl_job_offers import etl_job_offers_pipeline
+
+etl_job_offers_pipeline()
