@@ -1,8 +1,8 @@
 from etl.models import ETLConfig
 
 def load_config(
-        filepath_config: str = "input/config.txt", 
-        filepath_keywords: str = "input/key_words_job_offers.txt"
+        filepath_config: str = "etl/input/config.txt", 
+        filepath_keywords: str = "etl/input/key_words_job_offers.txt"
     ) -> ETLConfig:
     raw = {}
 

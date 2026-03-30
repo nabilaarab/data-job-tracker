@@ -25,7 +25,7 @@ class LoadStrategyExcel(LoadStrategy):
     """
     The responsability of this class is to load data in an excel
     """
-    def load(df: pd.DataFrame, path_folder="output"):    
+    def load(df: pd.DataFrame, path_folder="etl/output"):    
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         filepath = path_folder + "/job_offers_" + timestamp + ".xlsx"
 
