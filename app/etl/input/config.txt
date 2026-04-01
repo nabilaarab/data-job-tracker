@@ -30,7 +30,7 @@ remote_filter = all
 posted_within_days = 30
 
 # --- Nombre max d'offres à récupérer par plateforme ---
-max_results_per_platform = 200
+max_results_per_platform = 10
 
 # --- Proxies ---
 # use_proxies = true pour activer la rotation de proxies
