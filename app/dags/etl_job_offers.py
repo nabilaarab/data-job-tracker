@@ -8,12 +8,11 @@ from datetime import datetime
     is_paused_upon_creation=False
 )
 def etl_job_offers_pipeline():
-
+    
     @task
     def run():
         from etl.etl import ETLJobOffers
-        etl_job_offers = ETLJobOffers()
-        etl_job_offers.run_all()
+        ETLJobOffers().run_all()
 
     run()
 
