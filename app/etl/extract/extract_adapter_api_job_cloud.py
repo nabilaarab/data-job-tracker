@@ -1,6 +1,8 @@
+import logging
 import pandas as pd
 import random
 import requests
+import utils
 from datetime import datetime, timedelta
 from etl.extract.constants import JOBCLOUD__REGION_IDS
 from etl.extract.extract_adapter import ExtractAdapter
@@ -8,13 +10,21 @@ from etl.models import ETLConfig
 from typing import Any, Dict, List, Optional
 from utils import requests_with_retry
 
+logger = logging.getLogger(__name__)
+
+
 class ExtractAdapterAPIJobCloud(ExtractAdapter):
     """
     This class makes easy to use the API of the company JobCloud which can get data from Jobs.ch or Jobup.ch
     """
-    _URL = None
-    _HEADERS = None
-    _PARAMS = None
+    _HEADERS = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/115.0.0.0 Safari/537.36",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Connection": "keep-alive"
+    }
     
     # request function ------------------------------------------------------------------------
     @staticmethod
@@ -44,25 +54,46 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
             location:   str,
             key_word:   str
         ):
-        pass
+        # BUILD VARIABLES
+        region_id = JOBCLOUD__REGION_IDS[location]
+
+        rows = min(300, etl_config.max_results_per_platform)
+
+        params = ExtractAdapterAPIJobCloud._build_params(
+            key_word,
+            location, 
+            region_id, 
+            rows,
+            etl_config.posted_within_days
+            )
         
+        proxies = ExtractAdapterAPIJobCloud._build_proxies(etl_config.proxies)
+        
+        # LAUNCH AND RETURN REQUEST
+        return utils.requests_with_retry(
+            ExtractAdapterAPIJobCloud._URL,
+            headers=ExtractAdapterAPIJobCloud._HEADERS,
+            params=params,
+            proxies=proxies,
+            logger=logger
+        )
 
     # _build_params function ------------------------------------------------------------------------
     @staticmethod
     def _build_params(
+        query:              str,
         location:           str,
         region_id:          int,
         rows:               int,
-        start:              int,
         posted_within_days: int | None
         ) -> dict:
         """_summary_
 
         Args:
+            query (str): _description_
             location (str): _description_
             region_id (int): _description_
             rows (int): _description_
-            start (int): _description_
             posted_within_days (int | None): _description_
 
         Returns:
@@ -70,10 +101,10 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
         """
         # Create base parameters
         params: Dict[str, Any]  = {
+            "query": query,
             "location": location,
             "regionsIds": region_id,
-            "rows": rows,
-            "start": start
+            "rows": rows
         }
 
         # Add parameters of date if necessary
@@ -85,9 +116,9 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
         
         return params
     
-    # _build_proxy function ------------------------------------------------------------------------
+    # _build_proxies function ------------------------------------------------------------------------
     @staticmethod
-    def _build_proxy(proxies: List[str]) -> Optional[dict]:
+    def _build_proxies(proxies: List[str]) -> Optional[dict]:
         """Select randomly a proxy and return a dict compatible requests.
 
         Args:
@@ -96,6 +127,8 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
         Returns:
             Optional[dict]: return a dict compatible requests
         """
+        if proxies is None or len(proxies) == 0:
+            return None
         proxy_chose = random.choice(proxies)
         return {
             "http": f"http://{proxy_chose}",
