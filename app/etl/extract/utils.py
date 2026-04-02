@@ -5,6 +5,7 @@ from typing import Optional
 def requests_with_retry(
         url:            str,
         max_retries:    int = 3,
+        timeout:        int = 15,
         headers:        dict[str, str]  | None  = None,
         params:         dict | None             = None, 
         proxies:        Optional[dict]          = None,
@@ -19,7 +20,7 @@ def requests_with_retry(
                     params=params,
                     headers=headers,
                     proxies=proxies,
-                    timeout=15
+                    timeout=timeout
                 )
                 resp.raise_for_status()
                 return resp
