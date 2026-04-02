@@ -2,13 +2,12 @@ import logging
 import pandas as pd
 import random
 import requests
-import utils
 from datetime import datetime, timedelta
 from etl.extract.constants import JOBCLOUD__REGION_IDS
 from etl.extract.extract_adapter import ExtractAdapter
 from etl.models import ETLConfig
 from typing import Any, Dict, List, Optional
-from utils import requests_with_retry
+from etl.extract.utils import requests_with_retry
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +25,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
         "Connection": "keep-alive"
     }
     
-    # request function ------------------------------------------------------------------------
+    # function: request ------------------------------------------------------------------------
     @staticmethod
     def request(
         etl_config: ETLConfig,
@@ -70,7 +69,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
         proxies = ExtractAdapterAPIJobCloud._build_proxies(etl_config.proxies)
         
         # LAUNCH AND RETURN REQUEST
-        return utils.requests_with_retry(
+        return requests_with_retry(
             ExtractAdapterAPIJobCloud._URL,
             headers=ExtractAdapterAPIJobCloud._HEADERS,
             params=params,
@@ -78,7 +77,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
             logger=logger
         )
 
-    # _build_params function ------------------------------------------------------------------------
+    # function: _build_params ------------------------------------------------------------------------
     @staticmethod
     def _build_params(
         query:              str,
@@ -116,7 +115,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
         
         return params
     
-    # _build_proxies function ------------------------------------------------------------------------
+    # function: _build_proxies ------------------------------------------------------------------------
     @staticmethod
     def _build_proxies(proxies: List[str]) -> Optional[dict]:
         """Select randomly a proxy and return a dict compatible requests.
@@ -135,7 +134,6 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
             "https": f"http://{proxy_chose}"
         }
         
-
 
 class ExtractAdapterAPIJobUp(ExtractAdapterAPIJobCloud):
     pass
