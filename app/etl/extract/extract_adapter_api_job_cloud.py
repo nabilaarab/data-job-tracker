@@ -27,7 +27,6 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
             params=ExtractAdapterAPIJobCloud._PARAMS
         )
 
-class ExtractAdapterAPIJobUp(ExtractAdapterAPIJobCloud):
     @staticmethod
     def _build_params(
         location:           str,
@@ -52,3 +51,6 @@ class ExtractAdapterAPIJobUp(ExtractAdapterAPIJobCloud):
             params["publicationDateTo"]   = date_to.strftime("%Y-%m-%d 23:59:59")
         
         return params
+
+class ExtractAdapterAPIJobUp(ExtractAdapterAPIJobCloud):
+    pass
