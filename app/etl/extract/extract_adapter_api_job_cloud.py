@@ -2,9 +2,11 @@ import pandas as pd
 import random
 import requests
 from datetime import datetime, timedelta
+from etl.extract.constants import JOBCLOUD__REGION_IDS
 from etl.extract.extract_adapter import ExtractAdapter
 from etl.models import ETLConfig
 from typing import Any, Dict, List, Optional
+from utils import requests_with_retry
 
 class ExtractAdapterAPIJobCloud(ExtractAdapter):
     """
@@ -14,6 +16,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
     _HEADERS = None
     _PARAMS = None
     
+    # request function ------------------------------------------------------------------------
     @staticmethod
     def request(
         etl_config: ETLConfig,
@@ -22,11 +25,27 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
     ) -> pd.DataFrame:
         """
         """
+        # WE CHECK IF IT IS A LOCATION KNOWN
+        if location not in JOBCLOUD__REGION_IDS:
+            # IF NOT, WE CANNOT MANAGE THIS REQUEST
+            print("Lieu inconnu ou pas en Suisse.")
+            return None
+
         response = requests.get(
             ExtractAdapterAPIJobCloud._URL, 
             headers=ExtractAdapterAPIJobCloud._HEADERS, 
             params=ExtractAdapterAPIJobCloud._PARAMS
         )
+
+    # function: _request_get_list_offers ------------------------------------------------------------
+    @staticmethod
+    def _request_get_list_offers(
+            etl_config: ETLConfig,
+            location:   str,
+            key_word:   str
+        ):
+        pass
+        
 
     # _build_params function ------------------------------------------------------------------------
     @staticmethod
@@ -66,13 +85,16 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
         
         return params
     
-    # _build_proxies function ------------------------------------------------------------------------
-    def _build_proxies(proxies: List[str]) -> Optional[dict]:
-        """
-        Select randomly a proxy and return a dict compatible requests.
+    # _build_proxy function ------------------------------------------------------------------------
+    @staticmethod
+    def _build_proxy(proxies: List[str]) -> Optional[dict]:
+        """Select randomly a proxy and return a dict compatible requests.
+
+        Args:
+            proxies (List[str]): List of proxies
 
         Returns:
-            Optional[dict]: dict compatible for requests.
+            Optional[dict]: return a dict compatible requests
         """
         proxy_chose = random.choice(proxies)
         return {
