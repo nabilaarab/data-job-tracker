@@ -1,9 +1,10 @@
 import pandas as pd
+import random
 import requests
 from datetime import datetime, timedelta
 from etl.extract.extract_adapter import ExtractAdapter
 from etl.models import ETLConfig
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional
 
 class ExtractAdapterAPIJobCloud(ExtractAdapter):
     """
@@ -27,6 +28,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
             params=ExtractAdapterAPIJobCloud._PARAMS
         )
 
+    # _build_params function ------------------------------------------------------------------------
     @staticmethod
     def _build_params(
         location:           str,
@@ -35,6 +37,18 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
         start:              int,
         posted_within_days: int | None
         ) -> dict:
+        """_summary_
+
+        Args:
+            location (str): _description_
+            region_id (int): _description_
+            rows (int): _description_
+            start (int): _description_
+            posted_within_days (int | None): _description_
+
+        Returns:
+            dict: _description_
+        """
         # Create base parameters
         params: Dict[str, Any]  = {
             "location": location,
@@ -51,6 +65,22 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
             params["publicationDateTo"]   = date_to.strftime("%Y-%m-%d 23:59:59")
         
         return params
+    
+    # _build_proxies function ------------------------------------------------------------------------
+    def _build_proxies(proxies: List[str]) -> Optional[dict]:
+        """
+        Select randomly a proxy and return a dict compatible requests.
+
+        Returns:
+            Optional[dict]: dict compatible for requests.
+        """
+        proxy_chose = random.choice(proxies)
+        return {
+            "http": f"http://{proxy_chose}",
+            "https": f"http://{proxy_chose}"
+        }
+        
+
 
 class ExtractAdapterAPIJobUp(ExtractAdapterAPIJobCloud):
     pass
