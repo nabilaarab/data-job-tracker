@@ -15,7 +15,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
     """
     This class makes easy to use the API of the company JobCloud which can get data from Jobs.ch or Jobup.ch
     """
-    _HEADERS = {
+    __HEADERS = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                     "AppleWebKit/537.36 (KHTML, like Gecko) "
                     "Chrome/115.0.0.0 Safari/537.36",
@@ -27,9 +27,11 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
     # function: request ------------------------------------------------------------------------
     @staticmethod
     def request(
-        etl_config: ETLConfig,
-        location:   str, 
-        key_word:   str
+        etl_config:     ETLConfig,
+        location:       str, 
+        key_word:       str,
+        fetch_jobup:    bool = True,
+        fetch_jobs:     bool = True
     ) -> pd.DataFrame:
         """
         """
@@ -40,44 +42,81 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
             print("Lieu inconnu ou pas en Suisse.")
             return None
         
-        # GET ALL JOBS
-        response = ExtractAdapterAPIJobCloud._request_get_list_offers(
-            etl_config,
-            location,
-            key_word,
-            "https://job-search-api.jobup.ch/search/semantic"
-        )
+        # BUILD CONFIG IN FUNCTION OF WHAT WE HAVE IN PARAMETERS
+        fetch_websitedata_config = {}
 
-        # IF WE CANNOT GET OFFERS, WE STOP IT
-        if response is None:
-            return None
-        resp = response.json()
-        
-        # GET ids
-        docs = resp["documents"]
-        print(f"tyPEeeeeeeeeeeeeeeeee: {type(docs)}")
+        if fetch_jobup:
+            fetch_websitedata_config["JOBUP"] = {
+                "url_search": "https://job-search-api.jobup.ch/search/semantic",
+                "url_detail": "https://www.jobup.ch/api/v1/public/search/job/{id_job}"
+            }
 
-        ids_doc = []
-        for doc in docs:
-            ids_doc.append(doc["id"])
+        if fetch_jobs:
+            fetch_websitedata_config["JOBS"] = {
+                "url_search": "https://job-search-api.jobs.ch/search/semantic",
+                "url_detail": "https://www.jobs.ch/api/v1/public/search/job/{id_job}"
+            }
 
-        
-        # LAUNCH JOBS EXPLORATION
-        offers_details = []
-        for id_job in ids_doc:
-            print(id_job)
-            offer_detail = ExtractAdapterAPIJobCloud._request_get_offer_detail(
-                "https://www.jobup.ch/api/v1/public/search/job/{id_job}",
-                id_job,
-                etl_config.proxies
+        all_offers = []
+        for website in fetch_websitedata_config:
+
+            # REQUEST OFFERS DETAILS IN THE SELECTED WEBSITE
+            offers_details = ExtractAdapterAPIJobCloud._request_one_websitedata(
+                etl_config,
+                location,
+                key_word,
+                fetch_websitedata_config[website]["url_search"],
+                fetch_websitedata_config[website]["url_detail"],
             )
-            offers_details.append(offer_detail.json())
+            
+            all_offers.append(offers_details)
 
-        print(f"len: {len(offers_details)}")
-        print(f"type: {type(offers_details)}")
-        print(f"type element: {type(offers_details[0])}")
-        return offers_details
+        return all_offers
 
+
+    # function: _request_one_websitedata ------------------------------------------------------------
+    @staticmethod
+    def _request_one_websitedata(
+        etl_config:     ETLConfig,
+        location:       str, 
+        key_word:       str,
+        url_search:     str,
+        url_detail:     str
+    ):
+        # GET ALL JOBS
+            response = ExtractAdapterAPIJobCloud._request_get_list_offers(
+                etl_config,
+                location,
+                key_word,
+                url_search
+            )
+
+            # IF WE CANNOT GET OFFERS, WE STOP IT
+            if response is None:
+                return None
+            resp = response.json()
+            
+            # GET ids
+            docs = resp["documents"]
+            print(f"tyPEeeeeeeeeeeeeeeeee: {type(docs)}")
+        
+            # LAUNCH JOBS EXPLORATION
+            offers_details = []
+            for doc in docs:
+                id_job = doc["id"]
+                print(id_job)
+                offer_detail = ExtractAdapterAPIJobCloud._request_get_offer_detail(
+                    url_detail,
+                    id_job,
+                    etl_config.proxies
+                )
+                offers_details.append(offer_detail.json())
+
+            print(f"len: {len(offers_details)}")
+            print(f"type: {type(offers_details)}")
+            print(f"type element: {type(offers_details[0])}")
+
+            return offers_details
 
     # function: _request_get_list_offers ------------------------------------------------------------
     @staticmethod
@@ -116,7 +155,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
         # LAUNCH AND RETURN REQUEST
         return requests_with_retry(
             url_api,
-            headers=ExtractAdapterAPIJobCloud._HEADERS,
+            headers=ExtractAdapterAPIJobCloud.__HEADERS,
             params=params,
             proxies=proxies,
             logger=logger
@@ -148,7 +187,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
         # LAUNCH AND RETURN REQUEST
         return requests_with_retry(
             url_complete,
-            headers=ExtractAdapterAPIJobCloud._HEADERS,
+            headers=ExtractAdapterAPIJobCloud.__HEADERS,
             proxies=proxies,
             logger=logger
         )
