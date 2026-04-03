@@ -9,5 +9,10 @@ class ExtractAdapter(ABC):
     """
     @staticmethod
     @abstractmethod
-    def request(etl_config: ETLConfig) -> pd.DataFrame:
+    def request(etl_config: ETLConfig):
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def to_dataframe(data) -> pd.DataFrame:
         pass

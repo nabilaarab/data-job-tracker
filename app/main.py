@@ -1,4 +1,4 @@
-from etl.etl import ETLJobOffers
+from etl.etl_job_offers import ETLJobOffers
 from etl.extract.extract_adapter_api_job_cloud import ExtractAdapterAPIJobCloud
 from etl.utils import load_config
 import pandas as pd
@@ -12,6 +12,8 @@ print(etl_config)
 etl_adapter = ExtractAdapterAPIJobCloud()
 res = etl_adapter.request(etl_config, "Lausanne", "Data Engineer")
 
+res = etl_adapter.to_dataframe(res)
+print(res)
 
 # print("LAUNCH ---")
 # print(type(res))

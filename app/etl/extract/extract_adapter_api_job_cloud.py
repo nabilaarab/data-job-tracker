@@ -57,9 +57,8 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
                 "url_detail": "https://www.jobs.ch/api/v1/public/search/job/{id_job}"
             }
 
-        all_offers = []
+        all_offers = {}
         for website in fetch_websitedata_config:
-
             # REQUEST OFFERS DETAILS IN THE SELECTED WEBSITE
             offers_details = ExtractAdapterAPIJobCloud._request_one_websitedata(
                 etl_config,
@@ -69,7 +68,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
                 fetch_websitedata_config[website]["url_detail"],
             )
             
-            all_offers.append(offers_details)
+            all_offers[website] = offers_details
 
         return all_offers
 
@@ -98,7 +97,6 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
             
             # GET ids
             docs = resp["documents"]
-            print(f"tyPEeeeeeeeeeeeeeeeee: {type(docs)}")
         
             # LAUNCH JOBS EXPLORATION
             offers_details = []
@@ -112,9 +110,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
                 )
                 offers_details.append(offer_detail.json())
 
-            print(f"len: {len(offers_details)}")
-            print(f"type: {type(offers_details)}")
-            print(f"type element: {type(offers_details[0])}")
+            print(f"Il y a eu {len(offers_details)} offres trouvées !")
 
             return offers_details
 
@@ -248,7 +244,63 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
             "http": f"http://{proxy_chose}",
             "https": f"http://{proxy_chose}"
         }
-        
 
-class ExtractAdapterAPIJobUp(ExtractAdapterAPIJobCloud):
-    pass
+    # function: to_dataframe ------------------------------------------------------------------------
+    @staticmethod
+    def to_dataframe(data) -> pd.DataFrame:
+        """This function get the result of the request and transform it in DataFrame
+
+        Args:
+            data (_type_): _description_
+
+        Returns:
+            pd.DataFrame: _description_
+        """
+        # CONVERT TO DATAFRAME
+        dfs = []
+        for website in data:
+            data_website_selected =  data[website]
+
+            df_website_selected = pd.DataFrame(data_website_selected)
+            df_website_selected["site"] = website
+
+            dfs.append(df_website_selected)
+
+        df_merged: pd.DataFrame = pd.concat(dfs)
+
+        for column in df_merged.columns:
+            print(column)
+
+
+
+        # BUILD VARIABLES
+        df["location"] = df_merged["locations"]["street"] + df_merged["locations"]["postalCode"]+ df_merged["locations"]["city"]
+        df["location"] += df_merged["locations"]["cantonCode"] + df_merged["locations"]["countryCode"]
+
+        # RENAME COLUMNS
+        df_final = pd.DataFrame(
+            {
+                "id": df_merged["job_id"],
+                "site": df_merged["site"],
+                "job_url": df_merged["_links"]["detail_fr"]["href"],
+                "job_url_direct": None, 
+                "title": df_merged["title"],
+                "company": df_merged["company_name"],
+                "location": df_merged["location"],
+                "date_posted": df_merged["publication_end_date"],
+                "job_type": df_merged["site"],
+                "is_remote": df_merged["site"],
+                "job_level": df_merged["site"],
+                "job_function": df_merged["site"],
+                "emails": df_merged["site"],
+                "description": df_merged["site"],
+                "company_url": df_merged["site"],
+                "company_url_direct": df_merged["site"],
+                "company_addresses": df_merged["site"],
+                "company_num_employees": df_merged["site"],
+                "company_description": df_merged["site"],
+            }
+        )
+
+
+        return df

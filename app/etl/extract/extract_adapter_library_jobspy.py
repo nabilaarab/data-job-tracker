@@ -1,3 +1,4 @@
+import pandas as pd
 from etl.models import ETLConfig
 from etl.extract.extract_adapter import ExtractAdapter
 from jobspy import scrape_jobs
@@ -19,3 +20,7 @@ class ExtractAdapterLibraryJobSpy(ExtractAdapter):
             linkedin_fetch_description=True,
             proxies=etl_config.proxies,
         )
+
+    @staticmethod
+    def to_dataframe(data) -> pd.DataFrame:
+        return data
