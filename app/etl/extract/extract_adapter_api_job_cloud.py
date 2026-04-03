@@ -274,19 +274,31 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
 
 
         # BUILD VARIABLES
-        df["location"] = df_merged["locations"]["street"] + df_merged["locations"]["postalCode"]+ df_merged["locations"]["city"]
-        df["location"] += df_merged["locations"]["cantonCode"] + df_merged["locations"]["countryCode"]
+        _jobs_locations = df_merged["locations"].tolist()
+        
+        jobs_locations = []
+        for _job_locations in _jobs_locations:
+            job_locations = []
+            str_locations = ""
+            for dict_location in _job_locations:
+                for key in dict_location:
+                    str_locations += str(dict_location[key]) + " "
+                job_locations.append(str_locations)
+
+            jobs_locations.append(job_locations)
+
+        print(jobs_locations)
 
         # RENAME COLUMNS
         df_final = pd.DataFrame(
             {
                 "id": df_merged["job_id"],
                 "site": df_merged["site"],
-                "job_url": df_merged["_links"]["detail_fr"]["href"],
-                "job_url_direct": None, 
+                "job_url": df_merged["site"],#df_merged["_links"]["detail_fr"]["href"],
+                "job_url_direct": None,
                 "title": df_merged["title"],
                 "company": df_merged["company_name"],
-                "location": df_merged["location"],
+                "location": jobs_locations,
                 "date_posted": df_merged["publication_end_date"],
                 "job_type": df_merged["site"],
                 "is_remote": df_merged["site"],
@@ -303,4 +315,4 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
         )
 
 
-        return df
+        return df_final
