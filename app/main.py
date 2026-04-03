@@ -9,11 +9,19 @@ etl_config = load_config()
 print(etl_config)
 
 
-etl_adapter = ExtractAdapterAPIJobCloud()
-res = etl_adapter.request(etl_config, "Lausanne", "Data Engineer")
+etl_joboffers = ETLJobOffers()
+etl_joboffers.run_all()
 
-res = etl_adapter.to_dataframe(res)
-print(res)
+
+
+
+# print(res)
+
+
+# etl_adapter = ExtractAdapterAPIJobCloud()
+# res = etl_adapter.request(etl_config, "Lausanne", "Data Engineer")
+# res = etl_adapter.to_dataframe(res)
+# print(res)
 
 # print("LAUNCH ---")
 # print(type(res))

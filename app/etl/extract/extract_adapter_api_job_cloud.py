@@ -6,7 +6,7 @@ from etl.extract.constants import JOBCLOUD__REGION_IDS
 from etl.extract.extract_adapter import ExtractAdapter
 from etl.models import ETLConfig
 from typing import Any, Dict, List, Optional
-from etl.extract.utils import requests_with_retry
+from etl.extract.utils import html_to_text, requests_with_retry
 
 logger = logging.getLogger(__name__)
 
@@ -28,13 +28,37 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
     @staticmethod
     def request(
         etl_config:     ETLConfig,
-        location:       str, 
-        key_word:       str,
         fetch_jobup:    bool = True,
         fetch_jobs:     bool = True
     ) -> pd.DataFrame:
         """
         """
+        results = []
+        for location in etl_config.locations:
+            for key_word in etl_config.key_words:
+                print(f"[APIJobCloud] Search {key_word} in {location}...")
+
+                jobs_location_keyword = ExtractAdapterAPIJobCloud.__requestion_one_location_keyword(
+                    etl_config,
+                    location,
+                    key_word,
+                    fetch_jobup,
+                    fetch_jobs
+                )
+
+                if jobs_location_keyword is not None:
+                    results.append(jobs_location_keyword)
+
+        return results
+
+    # function: __requestion_one_location_keyword ---------------------------------------------------
+    def __requestion_one_location_keyword(
+            etl_config:     ETLConfig,
+            location:       str, 
+            key_word:       str,
+            fetch_jobup:    bool = True,
+            fetch_jobs:     bool = True
+    ):
         location = location.lower()
         # WE CHECK IF IT IS A LOCATION KNOWN
         if location not in JOBCLOUD__REGION_IDS:
@@ -71,8 +95,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
             all_offers[website] = offers_details
 
         return all_offers
-
-
+    
     # function: _request_one_websitedata ------------------------------------------------------------
     @staticmethod
     def _request_one_websitedata(
@@ -244,75 +267,3 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
             "http": f"http://{proxy_chose}",
             "https": f"http://{proxy_chose}"
         }
-
-    # function: to_dataframe ------------------------------------------------------------------------
-    @staticmethod
-    def to_dataframe(data) -> pd.DataFrame:
-        """This function get the result of the request and transform it in DataFrame
-
-        Args:
-            data (_type_): _description_
-
-        Returns:
-            pd.DataFrame: _description_
-        """
-        # CONVERT TO DATAFRAME
-        dfs = []
-        for website in data:
-            data_website_selected =  data[website]
-
-            df_website_selected = pd.DataFrame(data_website_selected)
-            df_website_selected["site"] = website
-
-            dfs.append(df_website_selected)
-
-        df_merged: pd.DataFrame = pd.concat(dfs)
-
-        for column in df_merged.columns:
-            print(column)
-
-
-
-        # BUILD VARIABLES
-        _jobs_locations = df_merged["locations"].tolist()
-        
-        jobs_locations = []
-        for _job_locations in _jobs_locations:
-            job_locations = []
-            str_locations = ""
-            for dict_location in _job_locations:
-                for key in dict_location:
-                    str_locations += str(dict_location[key]) + " "
-                job_locations.append(str_locations)
-
-            jobs_locations.append(job_locations)
-
-        print(jobs_locations)
-
-        # RENAME COLUMNS
-        df_final = pd.DataFrame(
-            {
-                "id": df_merged["job_id"],
-                "site": df_merged["site"],
-                "job_url": df_merged["site"],#df_merged["_links"]["detail_fr"]["href"],
-                "job_url_direct": None,
-                "title": df_merged["title"],
-                "company": df_merged["company_name"],
-                "location": jobs_locations,
-                "date_posted": df_merged["publication_end_date"],
-                "job_type": df_merged["site"],
-                "is_remote": df_merged["site"],
-                "job_level": df_merged["site"],
-                "job_function": df_merged["site"],
-                "emails": df_merged["site"],
-                "description": df_merged["site"],
-                "company_url": df_merged["site"],
-                "company_url_direct": df_merged["site"],
-                "company_addresses": df_merged["site"],
-                "company_num_employees": df_merged["site"],
-                "company_description": df_merged["site"],
-            }
-        )
-
-
-        return df_final

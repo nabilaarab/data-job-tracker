@@ -1,7 +1,9 @@
 import logging
 import requests
+from lxml import html
 from typing import Optional
 
+# function: requests_with_retry --------------------------------------------------------------------------------
 def requests_with_retry(
         url:            str,
         max_retries:    int = 3,
@@ -38,3 +40,10 @@ def requests_with_retry(
         
         # ERROR MESSAGE
         logger.error(f"Aucun résultat après de l'API {max_retries} tentatives.")
+
+# function: html_to_text ----------------------------------------------------------------------------------------
+def html_to_text(raw_html: str) -> str:
+    if not raw_html:
+        return ""
+    tree = html.fromstring(raw_html)
+    return tree.text_content().strip()
