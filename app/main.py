@@ -1,11 +1,11 @@
 from etl.etl_job_offers import ETLJobOffers
 from etl.extract.extract_adapter_api_job_cloud import ExtractAdapterAPIJobCloud
-from etl.utils import load_config
+from etl.models import ETLConfig
 import pandas as pd
 
 
 # Get config.txt
-etl_config = load_config()
+etl_config = ETLConfig.load_config()
 print(etl_config)
 
 

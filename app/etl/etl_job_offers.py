@@ -1,10 +1,10 @@
 import pandas as pd
-from etl.utils import load_config
 from etl.etl import ETL
 from etl.extract.utils import html_to_text
 from etl.extract.extract_adapter import ExtractAdapter
 from etl.extract.extract_adapter_api_job_cloud import ExtractAdapterAPIJobCloud
 from etl.extract.extract_adapter_library_jobspy import ExtractAdapterLibraryJobSpy
+from etl.models import ETLConfig
 from typing import cast
 
 class ETLJobOffers(ETL):
@@ -19,7 +19,7 @@ class ETLJobOffers(ETL):
             ]
 
         if config is None:
-            self.config = load_config()
+            self.config = ETLConfig.load_config()
 
     # function: extract --------------------------------------------------------------------------------------
     def extract(self):
