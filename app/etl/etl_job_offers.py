@@ -5,6 +5,7 @@ from etl.extract.utils import html_to_text
 from etl.extract.extract_adapter import ExtractAdapter
 from etl.extract.extract_adapter_api_job_cloud import ExtractAdapterAPIJobCloud
 from etl.extract.extract_adapter_library_jobspy import ExtractAdapterLibraryJobSpy
+from typing import cast
 
 class ETLJobOffers(ETL):
     """
@@ -61,16 +62,24 @@ class ETLJobOffers(ETL):
                 data_to_transform = pd.concat(dfs, ignore_index=True)
 
             data.append(data_to_transform)
-            
-        return pd.concat(data, ignore_index=True)
+        
+        # MERGE THE DATAFRAMES
+        df = cast(pd.DataFrame, pd.concat(data, ignore_index=True))
 
+        # REMOVE DUPLICATES
+        print("Suppression des doublons...")
+        df_duplicates_dropped = df.drop_duplicates(subset=["id"])
+
+        # PRINT THE NUMBER OF DROPPED RAWS
+        count_dropped_lines = len(df) - len(df_duplicates_dropped)
+        print(f"{count_dropped_lines} doublon(s) supprimé(s)")
+
+        return df
     # function: load ------------------------------------------------------------------------------------------
     def load(self, df_transformed: pd.DataFrame):
         """
         """
         for loader_strategy in self.loader_strategies:
-            print(type(df_transformed))
-            print(df_transformed)
             loader_strategy.load(
                 df=df_transformed
             )

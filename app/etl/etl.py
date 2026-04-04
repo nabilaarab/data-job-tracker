@@ -34,7 +34,3 @@ class ETL(ABC):
         data_extracted = self.extract()
         data_transformed = self.transform(data_extracted)
         self.load(data_transformed)
-
-
-
-
