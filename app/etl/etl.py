@@ -4,7 +4,6 @@ from etl.extract.extract_adapter_api_job_cloud import ExtractAdapterAPIJobCloud
 from etl.extract.extract_adapter_library_jobspy import ExtractAdapterLibraryJobSpy
 from etl.load.load_strategy import LoadStrategy
 from etl.load.load_strategy_excel import LoadStrategyExcel
-from etl.utils import load_config
 from typing import List
 
 

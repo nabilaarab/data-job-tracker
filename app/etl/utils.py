@@ -1,4 +1,5 @@
 from etl.models import ETLConfig
+from utils import load_key_words
 
 def load_config(
         filepath_config: str = "etl/input/config.local.txt", 
@@ -7,11 +8,7 @@ def load_config(
     raw = {}
 
     # Read the file of key words
-    with open(filepath_keywords, "r", encoding="utf-8") as f:
-        key_words = []
-        for line in f:
-            key_words.append(line.strip())
-        raw["key_words"] = key_words
+    raw["key_words"] = load_key_words(filepath_keywords)
 
     # Read the file of configuration
     with open(filepath_config, "r", encoding="utf-8") as f:
