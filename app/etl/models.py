@@ -26,30 +26,20 @@ class ETLConfig:
         filepath_config: str = "etl/input/config.local.txt", 
         filepath_keywords: str = "etl/input/key_words_job_offers.txt"
     ) -> Self:
-        raw = {}
+        
+        # Read the file of configuration
+        raw = ETLConfig.__read_config_file(filepath_config)
 
         # Read the file of key words
         raw["key_words"] = load_key_words(filepath_keywords)
 
-        # Read the file of configuration
-        with open(filepath_config, "r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line or line.startswith("#"):
-                    continue
-                if "=" not in line:
-                    continue
-                key, _, value = line.partition("=")
-                key = key.strip()
-                value = value.split("#")[0].strip()  # ignore commentaires inline
-                raw[key] = value
-
-        # --- locations + location_countries ---
+        # Extract locations and country for each location
         locations, location_countries = ETLConfig.__extract_locations_countries_from(raw.get("locations", ""))
 
-        # --- proxies ---
+        # Extract proxies
         proxies = ETLConfig.__extract_proxies_from(raw.get("proxies"))
 
+        # Create and return the object
         return ETLConfig(
             key_words=raw.get("key_words", []),
             site_names=[s.strip() for s in raw.get("site_names", "").split(",") if s.strip()],
@@ -64,8 +54,21 @@ class ETLConfig:
             job_type=raw.get("job_type", "all"),
         )
     
-    def read_config_file(filepath_config: str):
-        pass
+    def __read_config_file(filepath_config: str) -> dict[str, str]:
+        raw = {}
+        with open(filepath_config, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" not in line:
+                    continue
+                key, _, value = line.partition("=")
+                key = key.strip()
+                value = value.split("#")[0].strip()  # ignore commentaires inline
+                raw[key] = value
+
+        return raw
 
     # function: __extract_locations_countries_from -------------------------------------------------------------------------------------
     def __extract_locations_countries_from(raw_locations) -> tuple[list[str], dict[str, str]]:
