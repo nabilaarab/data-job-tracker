@@ -20,6 +20,7 @@ class ETLConfig:
     proxies: List[str] | str | None = field(default_factory=list)
     job_type: str = "all"
 
+    # function: load_config -------------------------------------------------------------------------------------------------------------
     @staticmethod
     def load_config(
         filepath_config: str = "etl/input/config.local.txt", 
@@ -44,27 +45,10 @@ class ETLConfig:
                 raw[key] = value
 
         # --- locations + location_countries ---
-        locations = []
-        location_countries = {}
-        for item in raw.get("locations", "").split(","):
-            item = item.strip()
-            if not item:
-                continue
-            if ":" in item:
-                city, country = item.split(":", 1)
-                city, country = city.strip(), country.strip()
-                locations.append(city)
-                location_countries[city] = country
-            else:
-                locations.append(item)
+        locations, location_countries = ETLConfig.__extract_locations_countries_from(raw.get("locations", ""))
 
         # --- proxies ---
-        proxies = []
-        if raw.get("proxies"):
-            for p in raw["proxies"].split(","):
-                p = p.strip()
-                if p:
-                    proxies.append(p)
+        proxies = ETLConfig.__extract_proxies_from(raw.get("proxies"))
 
         return ETLConfig(
             key_words=raw.get("key_words", []),
@@ -79,3 +63,35 @@ class ETLConfig:
             proxies=proxies,
             job_type=raw.get("job_type", "all"),
         )
+    
+    def read_config_file(filepath_config: str):
+        pass
+
+    # function: __extract_locations_countries_from -------------------------------------------------------------------------------------
+    def __extract_locations_countries_from(raw_locations) -> tuple[list[str], dict[str, str]]:
+        locations = []
+        location_countries = {}
+        for item in raw_locations.split(","):
+            item = item.strip()
+            if not item:
+                continue
+            if ":" in item:
+                city, country = item.split(":", 1)
+                city, country = city.strip(), country.strip()
+                locations.append(city)
+                location_countries[city] = country
+            else:
+                locations.append(item)
+
+        return locations, location_countries
+
+    # function: __extract_proxies_from -------------------------------------------------------------------------------------------------
+    def __extract_proxies_from(raw_proxies) -> list[str]:
+        proxies = []
+        if raw_proxies:
+            for p in raw_proxies.split(","):
+                p = p.strip()
+                if p:
+                    proxies.append(p)
+
+        return proxies
