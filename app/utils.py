@@ -1,4 +1,5 @@
 
+
 def load_key_words(filepath_keywords: str) -> list[str]:
     # Read the file of key words
     with open(filepath_keywords, "r", encoding="utf-8") as f:

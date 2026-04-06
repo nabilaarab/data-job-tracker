@@ -5,9 +5,9 @@ from utils import load_key_words
 @dataclass
 class ETLConfig:
     """
-    Paramètres lus depuis config.txt 
+    Parameters read from config.txt 
     """
-    # Parameter of extract phase
+    # Parameters of extract phase
     key_words: List[str] = field(default_factory=list)
     site_names: List[str] = field(default_factory=list)
     locations: List[str] = field(default_factory=list)
