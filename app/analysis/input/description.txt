@@ -1,0 +1,62 @@
+Mode hybride : 2 jours hors site et 3 jours sur site
+
+À propos du poste
+
+En tant qu'ingénieur-e data & IA au sein de notre équipe Digital Manufacturing & Supply Accelerator, vous contribuerez à transformer la façon dont Sanofi distribue des médicaments vitaux grâce à la donnée, à l'IA et à l'innovation digitale. Ce poste constitue une excellente opportunité pour développer et renforcer votre expertise tout en participant à des projets à fort impact. Basé-e à Lyon, vous rejoindrez une équipe dynamique pilotant la transformation digitale de la production chez Sanofi.
+
+À propos de Sanofi
+
+Nous sommes une entreprise biopharmaceutique guidée par la R&D et alimentée par l'IA, engagée à améliorer la vie des personnes et à assurer une croissance solide. Notre compréhension du système immunitaire nous permet d'inventer des médicaments et des vaccins pour des millions de personnes.
+
+Responsabilités principales
+
+     Concevoir et implémenter des pipelines de données.
+     Développer des modèles de données optimisés.
+     Collaborer avec des équipes pluridisciplinaires.
+     Mettre en œuvre les contrôles de qualité des données.
+     Utiliser des processus automatisés d'ingestion et monitoring.
+     Construire et maintenir des processus ETL et workflows ML.
+     Appliquer les bonnes pratiques CI/CD et participer aux revues de code.
+
+À propos de vous
+
+Expérience
+
+     Pipelines data et solutions data warehouse cloud.
+     Data modeling, ETL/ELT, orchestration.
+     Collaboration transverse.
+
+Compétences Techniques
+
+     SQL, Snowflake.
+     ETL (IICS ou équivalent), dbt, Python.
+     Cloud AWS, Airflow.
+     CI/CD (GitHub Actions), Git, Terraform.
+     Implémentation de standards techniques.
+     Neo4j/bases de données graphes
+
+Compétences Comportementales
+
+     Esprit collaboratif.
+     Autonomie.
+     Excellente communication.
+
+Formation : Licence ou Master en informatique ou équivalent.
+
+Langue : Anglais obligatoire.
+
+Pourquoi nous rejoindre ?
+
+     Contribuer à une entreprise leader et pionnière en digital.
+     Avantages santé et bien-être.
+     Culture inclusive.
+     Organisation alimentée par l'IA.
+     Collaboration internationale.
+     Formations et certifications.
+     Environnement responsable guidé par RAISE.
+
+Poursuivre le Progrès. Découvrir l'Extraordinaire.
+
+Rejoignez Sanofi pour une nouvelle ère scientifique où votre développement compte autant que notre mission.
+
+Égalité des chances assurée pour tous.

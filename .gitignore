@@ -11,3 +11,4 @@ airflow.cfg
 
 # Txt
 app/etl/input/config.local.txt
+app/analysis/input/resume.local.txt

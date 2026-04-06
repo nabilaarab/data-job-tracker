@@ -1,50 +1,55 @@
 import os
 from analysis.analyzer import Analyzer
+from analysis.models import AnalyzerConfig
+from dotenv import load_dotenv
 from groq import Groq
 
 class AnalyzerLLM(Analyzer):
 
     # function: __init__ --------------------------------------------------------------------------------------------------
-    def __init__(self):
+    def __init__(self, config: AnalyzerConfig):
+        super().__init__(config)
+        load_dotenv()
         self.__client = Groq(api_key=os.environ["GROQ_API_KEY"])
-        self.__MODEL = "llama-3.1-8b-instant"
-        self.__PROMPT_SYSTEM = (
-            "Tu es un expert en recrutement. Tu vas recevoir les mots-clés d'un CV et une fiche de poste. "
-            "Évalue les chances de ce CV en donnant un score de pertinence allant de 0 à 100. "
-            "Réponds UNIQUEMENT avec ce JSON, sans texte avant ni après : {\"score\": <entier 0-100>}"
-        )
-        self.__PROMPT_USER: str = (
-            "Voici le CV : {resume}" \
-            "Voici la fiche de poste : {job_description}"
-        )
-
+    
     # function: run --------------------------------------------------------------------------------------------------
     def run(self):
-        pass
+        self.__launch_one_request()
     
     # function: __launch_one_request ---------------------------------------------------------------------------------
-    def __launch_one_request(self, messages):
+    def __launch_one_request(self):
+        extra_parameters = {}
+        
+        output_desired = self._config.prompt_output_desired
+        if output_desired is not None:
+            extra_parameters["response_format"] = output_desired
+
         response = self.__client.chat.completions.create(
-            model=self.__MODEL,
-            messages=messages,
-            response_format={"type": "json_object"}
+            model=self._config.ai_model,
+            messages=self.__build_messages(),
+            **extra_parameters
         )
 
         print(response.choices[0].message.content)
 
     # function: __build_messages -------------------------------------------------------------------------------------
-    def __build_messages(self, resume, job_description):
-        return [
-            {
-                "role": "system",
-                "content": self.__PROMPT_SYSTEM
-            },
-            {
-                "role": "user",
-                "content": self.__PROMPT_USER.format(
-                    resume=resume, 
-                    job_description=job_description
+    def __build_messages(self):
+        parameters_prompt = []
+
+        for role, content in [
+            ("system", self._config.prompt_system_content),
+            ("user",   self._config.prompt_user_content)
+        ]:
+            if content is not None:
+                parameters_prompt.append(
+                    {
+                        "role": role, 
+                        "content": content
+                     }
                 )
-            }
-        ]
+
+        return parameters_prompt
     
+    # function: update_config ----------------------------------------------------------------------------------------
+    def update_config(self, analyzer_config: AnalyzerConfig):
+        self._config = analyzer_config
