@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from analysis.analyzer import Analyzer
 from analysis.models import AnalyzerConfig
 from dotenv import load_dotenv
 from groq import Groq
