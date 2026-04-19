@@ -1,0 +1,5 @@
+Data Engineer
+SQL
+Power BI
+Python
+Pandas

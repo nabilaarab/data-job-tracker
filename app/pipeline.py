@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-from analysis.analyzer import AnalyzerLLM
+from analysis.analyzer import AnalyzerLLM, AnalyzerKeyWord
 from analysis.models import AnalyzerConfig
 from etl.etl_job_offers import ETLJobOffers
 from pipeline_config import LLM_MODEL, LLM_PROMPT_OUTPUT, LLM_PROMPT_SYSTEM, LLM_PROMPT_USER
-from utils import get_latest_file, read_file
+from utils import get_latest_file, load_key_words, read_file
 import json
 import pandas as pd
 
@@ -24,6 +24,32 @@ class PipelineJobOffer(Pipeline):
         etl_joboffers.run_all()
 
     def launch_analyzer():
+        PipelineJobOffer.launch_analyzer_keyword()
+
+    def launch_analyzer_keyword():
+        analyzer_config = AnalyzerConfig(
+            load_key_words("analysis/input/keywords.txt"),
+            None,
+            None,
+            None,
+            None,
+            None)
+
+        df: pd.DataFrame = PipelineJobOffer.__get_latest_jobs()
+        scores = []
+
+        analyzer = AnalyzerKeyWord(analyzer_config)
+        for row in df.itertuples():
+            analyzer_config.text = row.description
+            result = analyzer.run()
+            scores.append(result)
+
+        df["score_keyword"] = scores
+        df.to_excel("analysis/output/test_keyword.xlsx", index=False)
+
+        
+    
+    def launch_analyzer_llm():
         df: pd.DataFrame = PipelineJobOffer.__get_latest_jobs()
         scores = []
 
@@ -43,6 +69,7 @@ class PipelineJobOffer(Pipeline):
     
     def __launch_one_analyzer(job_description: str):
         analyzer_config = AnalyzerConfig(
+            None,
             None,
             ai_model=LLM_MODEL,
             prompt_system_content=LLM_PROMPT_SYSTEM,

@@ -16,22 +16,37 @@ class Analyzer(ABC):
         pass
 
 class AnalyzerKeyWord(Analyzer):
+
+    # function: __init__ ---------------------------------------------------------------------------------------------------
+    def __init__(self, config: AnalyzerConfig):
+        super().__init__(config)
+    
+    # function: run --------------------------------------------------------------------------------------------------------
     def run(self):
-        pass
+        keywords = self._config.keywords
+        text = self._config.text
+
+        total_keywords = len(keywords)
+        count_keywords = 0
+        for keyword in keywords:
+            if keyword in text:
+                count_keywords += 1
+
+        return count_keywords / total_keywords
 
 class AnalyzerLLM(Analyzer):
 
-    # function: __init__ --------------------------------------------------------------------------------------------------
+    # function: __init__ ---------------------------------------------------------------------------------------------------
     def __init__(self, config: AnalyzerConfig):
         super().__init__(config)
         load_dotenv()
         self.__client = Groq(api_key=os.environ["GROQ_API_KEY"])
     
-    # function: run --------------------------------------------------------------------------------------------------
+    # function: run --------------------------------------------------------------------------------------------------------
     def run(self):
         return self.__launch_one_request()
     
-    # function: __launch_one_request ---------------------------------------------------------------------------------
+    # function: __launch_one_request ---------------------------------------------------------------------------------------
     def __launch_one_request(self):
         extra_parameters = {}
         
@@ -52,7 +67,7 @@ class AnalyzerLLM(Analyzer):
         print(response)
         return response # A CHECK
 
-    # function: __build_messages -------------------------------------------------------------------------------------
+    # function: __build_messages -------------------------------------------------------------------------------------------
     def __build_messages(self):
         parameters_prompt = []
 
@@ -70,6 +85,6 @@ class AnalyzerLLM(Analyzer):
 
         return parameters_prompt
     
-    # function: update_config ----------------------------------------------------------------------------------------
+    # function: update_config ----------------------------------------------------------------------------------------------
     def update_config(self, analyzer_config: AnalyzerConfig):
         self._config = analyzer_config
