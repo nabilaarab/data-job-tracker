@@ -9,11 +9,11 @@ import pandas as pd
 # print(etl_config)
 
 
-# etl_joboffers = ETLJobOffers()
-# etl_joboffers.run_all()
+etl_joboffers = ETLJobOffers()
+etl_joboffers.run_all()
 
 # Try analysis
 
-from pipeline import Pipeline
+from pipeline import PipelineJobOffer
 
-Pipeline.launch_analyzers()
+PipelineJobOffer.launch_analyzer()
