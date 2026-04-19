@@ -16,4 +16,4 @@ import pandas as pd
 
 from pipeline import Pipeline
 
-Pipeline.launch_analyzer()
+Pipeline.launch_analyzers()

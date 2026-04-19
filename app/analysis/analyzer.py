@@ -29,7 +29,7 @@ class AnalyzerLLM(Analyzer):
     
     # function: run --------------------------------------------------------------------------------------------------
     def run(self):
-        self.__launch_one_request()
+        return self.__launch_one_request()
     
     # function: __launch_one_request ---------------------------------------------------------------------------------
     def __launch_one_request(self):
@@ -39,13 +39,18 @@ class AnalyzerLLM(Analyzer):
         if output_desired is not None:
             extra_parameters["response_format"] = output_desired
 
+        print("request")
         response = self.__client.chat.completions.create(
             model=self._config.ai_model,
             messages=self.__build_messages(),
             **extra_parameters
         )
+        print("request finished")
+        response = response.choices[0].message.content
 
-        print(response.choices[0].message.content)
+        print(type(response))
+        print(response)
+        return response # A CHECK
 
     # function: __build_messages -------------------------------------------------------------------------------------
     def __build_messages(self):
