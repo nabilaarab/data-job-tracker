@@ -1,4 +1,4 @@
-from analysis.analyzer_llm import AnalyzerLLM
+from analysis.analyzer import AnalyzerLLM
 from analysis.models import AnalyzerConfig
 from pipeline_config import LLM_MODEL, LLM_PROMPT_OUTPUT, LLM_PROMPT_SYSTEM, LLM_PROMPT_USER
 from utils import read_file
@@ -8,9 +8,12 @@ class Pipeline:
     def launch_etl():
         pass
 
+    def get_descriptions():
+        pass
+
     def launch_analyzer():
         analyzer_config = AnalyzerConfig(
-            [],
+            None,
             ai_model=LLM_MODEL,
             prompt_system_content=LLM_PROMPT_SYSTEM,
             prompt_user_content=LLM_PROMPT_USER,
