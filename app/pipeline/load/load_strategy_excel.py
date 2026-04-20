@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime
-from load.load_strategy import LoadStrategy
+from pipeline.load.load_strategy import LoadStrategy
 from openpyxl import load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment
 

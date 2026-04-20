@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from analysis.models import AnalyzerConfig
+from pipeline.analysis.models import AnalyzerConfig
 from dotenv import load_dotenv
 from groq import Groq
 import os

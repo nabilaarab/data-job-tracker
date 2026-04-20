@@ -1,6 +1,6 @@
 import pandas as pd
-from models import PipelineContext
-from extract.extract_adapter import ExtractAdapter
+from pipeline.models import PipelineContext
+from pipeline.extract.extract_adapter import ExtractAdapter
 from jobspy import scrape_jobs
 
 class ExtractAdapterLibraryJobSpy(ExtractAdapter):

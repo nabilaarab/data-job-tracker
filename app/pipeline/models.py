@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Dict, List, Self
-from utils import load_key_words
+from pipeline.utils import load_key_words
 import pandas as pd
 
 @dataclass

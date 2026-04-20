@@ -1,3 +1,3 @@
-from pipeline import PipelineJobOffer
+from pipeline.pipeline import PipelineJobOffer
 
 PipelineJobOffer.run()

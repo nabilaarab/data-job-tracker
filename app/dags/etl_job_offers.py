@@ -11,8 +11,8 @@ def etl_job_offers_pipeline():
     
     @task
     def run():
-        from etl.etl_job_offers import ETLJobOffers
-        ETLJobOffers().run_all()
+        from pipeline.pipeline import PipelineJobOffer
+        PipelineJobOffer.run()
 
     run()
 

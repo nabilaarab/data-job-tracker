@@ -2,11 +2,11 @@ import logging
 import pandas as pd
 import random
 from datetime import datetime, timedelta
-from extract.constants import JOBCLOUD__REGION_IDS
-from extract.extract_adapter import ExtractAdapter
-from models import PipelineContext
+from pipeline.extract.constants import JOBCLOUD__REGION_IDS
+from pipeline.extract.extract_adapter import ExtractAdapter
+from pipeline.extract.utils import html_to_text, requests_with_retry
+from pipeline.models import PipelineContext
 from typing import Any, Dict, List, Optional
-from extract.utils import html_to_text, requests_with_retry
 
 logger = logging.getLogger(__name__)
 

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from pipeline_step import PipelineStepInitContextJobOffers, PipelineStepExtractJobOffers, PipelineStepTransformJobOffers, PipelineStepLoadInExcel, PipelineStepJobAnalyzerKeyWords, PipelineStepJobAnalyzerLLM
+from pipeline.pipeline_step import PipelineStepInitContextJobOffers, PipelineStepExtractJobOffers, PipelineStepTransformJobOffers, PipelineStepLoadInExcel, PipelineStepJobAnalyzerKeyWords, PipelineStepJobAnalyzerLLM
 
 class Pipeline(ABC):
     _steps = []
@@ -21,6 +21,6 @@ class PipelineJobOffer(Pipeline):
         PipelineStepLoadInExcel(),
         PipelineStepJobAnalyzerKeyWords(),
         PipelineStepLoadInExcel(),
-        PipelineStepJobAnalyzerLLM(),
-        PipelineStepLoadInExcel()
+        # PipelineStepJobAnalyzerLLM(),
+        # PipelineStepLoadInExcel()
     ]

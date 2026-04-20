@@ -1,6 +1,6 @@
 import pandas as pd
 from abc import ABC, abstractmethod
-from models import PipelineContext
+from pipeline.models import PipelineContext
 
 class ExtractAdapter(ABC):
     """

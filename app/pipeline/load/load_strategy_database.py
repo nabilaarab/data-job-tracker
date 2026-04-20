@@ -1,4 +1,4 @@
-from etl.load.load_strategy import LoadStrategy
+from load.load_strategy import LoadStrategy
 
 class LoadStrategyDatabase(LoadStrategy):
     """

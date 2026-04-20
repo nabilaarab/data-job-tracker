@@ -1,14 +1,14 @@
 from abc import ABC, abstractmethod
-from analysis.analyzer import AnalyzerConfig, AnalyzerKeyWord, AnalyzerLLM
-from extract.extract_adapter import ExtractAdapter
-from extract.extract_adapter_api_job_cloud import ExtractAdapterAPIJobCloud
-from extract.extract_adapter_library_jobspy import ExtractAdapterLibraryJobSpy
-from load.load_strategy_excel import LoadStrategyExcel
+from pipeline.analysis.analyzer import AnalyzerConfig, AnalyzerKeyWord, AnalyzerLLM
+from pipeline.extract.extract_adapter import ExtractAdapter
+from pipeline.extract.extract_adapter_api_job_cloud import ExtractAdapterAPIJobCloud
+from pipeline.extract.extract_adapter_library_jobspy import ExtractAdapterLibraryJobSpy
+from pipeline.load.load_strategy_excel import LoadStrategyExcel
 from lxml import html
-from models import PipelineContext
-from pipeline_config import LLM_MODEL, LLM_PROMPT_OUTPUT, LLM_PROMPT_SYSTEM, LLM_PROMPT_USER
+from pipeline.models import PipelineContext
+from pipeline.pipeline_config import LLM_MODEL, LLM_PROMPT_OUTPUT, LLM_PROMPT_SYSTEM, LLM_PROMPT_USER
 from typing import cast
-from utils import get_latest_file, load_key_words, read_file
+from pipeline.utils import get_latest_file, load_key_words, read_file
 import json
 import pandas as pd
 

@@ -75,7 +75,7 @@ x-airflow-common:
     # WARNING: Use _PIP_ADDITIONAL_REQUIREMENTS option ONLY for a quick checks
     # for other purpose (development, test and especially production usage) build/extend Airflow image.
     # _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
-    _PIP_ADDITIONAL_REQUIREMENTS: "openpyxl>=3.1.5 python-jobspy>=1.1.82"
+    _PIP_ADDITIONAL_REQUIREMENTS: "groq>=1.1.2 openpyxl>=3.1.5 python-jobspy>=1.1.82"
     # The following line can be used to set a custom config file, stored in the local config folder
     AIRFLOW_CONFIG: '/opt/airflow/config/airflow.cfg'
   volumes:
@@ -83,7 +83,9 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
-    - ${AIRFLOW_PROJ_DIR:-.}/etl:/opt/airflow/etl
+    - ${AIRFLOW_PROJ_DIR:-.}/pipeline:/opt/airflow/pipeline
+    - ${AIRFLOW_PROJ_DIR:-.}/input:/opt/airflow/input
+    - ${AIRFLOW_PROJ_DIR:-.}/output:/opt/airflow/output
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on
