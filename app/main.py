@@ -16,4 +16,4 @@ import pandas as pd
 
 from pipeline import PipelineJobOffer
 
-PipelineJobOffer.launch_analyzer()
+PipelineJobOffer.run()
