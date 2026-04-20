@@ -1,0 +1,80 @@
+Nabil AARAB
+Data Engineer
+Contact
+nabilaarablyon@gmail.com
++33 6 14 32 00 63
+Lyon, France
+Portfolio : nabilaarab.com
+Linkedin : nabil-aarab
+Profil
+Ingénieur informatique diplômé avec
+plus d’un an d’expérience en data
+engineering. Compétent en C#, Java et
+Python avec de bonnes compétences en
+SQL. Expérience sur des projets de
+migration de données, d’ETL et de refonte
+d’applications d’analyse de données.
+Disponible immédiatement.
+Formation
+Diplôme d'Ingénieur en Informatique
+Polytech Lyon / 2021 - 2025
+Major Top 5 de la promotion (3ᵉ/ 48)
+DUT Génie Électrique et Informatique
+Industrielle
+Université Lyon 1 / 2019 - 2021
+Major Top 10 de la promotion (8ᵉ/130)
+Langues
+● Français : Natif
+● Anglais : Avancé / B2 - TOEIC
+(860/990)
+Compétences
+Data Engineering & Orchestration: ETL/ELT (Talend, Apache Airflow),
+Architecture des données, Pipelines de données (conception & automatisation)
+Bases de données & Stockage: SQL Expert (MySQL, PostgreSQL, PL/SQL),
+Modélisation relationnelle, Optimisation de requêtes
+Data Science & Analytics: Python (Pandas, NumPy), Machine Learning
+(Scikit-learn, PyTorch), Visualisation de données (Bokeh, Matplotlib, Power BI)
+Programmation: Python, C#, Java, C/C++
+Extras: Arduino, ESP32, Firebase, HTML, CSS, Django, Blazor, Laravel, JavaScript,
+PHP, Bootstrap
+Expérience
+BI & Data Engineer | PLANAIR - Optimisation énergétique
+Neuchâtel, Suisse | Mars 2024 – Août 2024 | 6 mois
+* Expérience professionnelle validée par un certificat de travail suisse
+validant autonomie, niveau technique et savoir-être
+★ Détection d’anomalies énergétiques pour +10 clients et génération de +500
+rapports d’analyse de données, réduisant de 50 % le temps de travail grâce
+au développement d’une librairie Python.
+★ Détection de l’optimum énergétique d’une pompe centrifuge pour un
+client en développant un logiciel utilisant la loi des similitudes.
+★ Visualisation de flux énergétiques pour +10 clients grâce à une refonte d’un
+logiciel générateur de Sankey.
+★ Implémentation de +10 convertisseurs d’unités énergétiques par la
+modernisation d’une librairie de manipulation de données.
+Stack technique: Python, Pandas, Bokeh, K-means, Git, SQL
+Data Engineer | DUQUEINE - Industrie aéronautique
+Civrieux, France | Septembre 2022 - Février 2023 | 6 mois
+★ Gain de temps de 3 mois de travail en développant un ETL avec interface
+graphique traitant +3000 habilitations dans l’industrie
+★ Perte financière évitée grâce à une intervention rapide sur des ETL Talend
+défaillants en production
+★ Automatisation du contrôle de conformité de +100 pièces aéronautiques via
+la refonte complète d'un logiciel fiabilisant le processus de validation
+Stack technique: Talend, SQL, SQL Server, PostgreSQL, C#, Blazor
+Data Engineer | PIMAS - Accessoires de véhicules
+Lyon, France | Mai 2020 – Juillet 2020 | 3 mois
+★ Traitement de +2500 fichiers en développant un ETL avec interface
+graphique pour contribuer à un changement d’ERP
+Stack technique: C#
+Références
+Yannick RIESEN
+PLANAIR
+Responsable du groupe solutions
+digitales
+✉ yannick.riesen@planair.ch
+Issam DJENDOUBI
+DUQUEINE
+Responsable informatique du
+GROUPE DUQUEINE
+📞+33 6 71 05 15 39
+✉ issam.djendoubi@duqueine.fr

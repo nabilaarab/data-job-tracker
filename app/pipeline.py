@@ -20,5 +20,7 @@ class PipelineJobOffer(Pipeline):
         PipelineStepTransformJobOffers(),
         PipelineStepLoadInExcel(),
         PipelineStepJobAnalyzerKeyWords(),
-        PipelineStepJobAnalyzerLLM()
+        PipelineStepLoadInExcel(),
+        PipelineStepJobAnalyzerLLM(),
+        PipelineStepLoadInExcel()
     ]

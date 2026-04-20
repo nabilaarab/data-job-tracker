@@ -1,6 +1,6 @@
 import pandas as pd
-from etl.models import ETLConfig
-from etl.extract.extract_adapter import ExtractAdapter
+from models import PipelineContext
+from extract.extract_adapter import ExtractAdapter
 from jobspy import scrape_jobs
 
 class ExtractAdapterLibraryJobSpy(ExtractAdapter):
@@ -10,7 +10,7 @@ class ExtractAdapterLibraryJobSpy(ExtractAdapter):
 
     # function: request ------------------------------------------------------------------------
     @staticmethod
-    def request(etl_config: ETLConfig):
+    def request(etl_config: PipelineContext):
         results = []
         for location in etl_config.locations:
             for key_word in etl_config.key_words:

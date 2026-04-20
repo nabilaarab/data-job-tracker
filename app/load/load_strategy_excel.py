@@ -1,6 +1,6 @@
 import pandas as pd
 from datetime import datetime
-from etl.load.load_strategy import LoadStrategy
+from load.load_strategy import LoadStrategy
 from openpyxl import load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment
 
@@ -8,9 +8,13 @@ class LoadStrategyExcel(LoadStrategy):
     """
     The responsability of this class is to load data in an excel
     """
-    def load(df: pd.DataFrame, path_folder="etl/output"):    
+    def load(
+            df: pd.DataFrame, 
+            path_folder="output/etl", 
+            file_name_beginning="job_offers_"
+        ):
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        filepath = path_folder + "/job_offers_" + timestamp + ".xlsx"
+        filepath = path_folder + "/" + file_name_beginning + timestamp + ".xlsx"
 
         df.to_excel(filepath, index=False)
         

@@ -1,6 +1,6 @@
 import pandas as pd
 from abc import ABC, abstractmethod
-from etl.models import ETLConfig
+from models import PipelineContext
 
 class ExtractAdapter(ABC):
     """
@@ -9,7 +9,7 @@ class ExtractAdapter(ABC):
     """
     @staticmethod
     @abstractmethod
-    def request(etl_config: ETLConfig):
+    def request(context: PipelineContext):
         pass
 
     @staticmethod

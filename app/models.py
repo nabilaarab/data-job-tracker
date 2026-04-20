@@ -24,11 +24,15 @@ class PipelineContext:
     proxies: List[str] | str | None = field(default_factory=list)
     job_type: str = "all"
 
+    # Place to save data
+    path_folder: str = "output/etl"
+    file_name_beginning : str = "job_offers_"
+
     # function: load_config -------------------------------------------------------------------------------------------------------------
     @staticmethod
     def load_config(
-        filepath_config: str = "etl/input/config.local.txt", 
-        filepath_keywords: str = "etl/input/key_words_job_offers.txt"
+        filepath_config: str = "input/etl/config.local.txt", 
+        filepath_keywords: str = "input/etl/key_words_job_offers.txt"
     ) -> Self:
         
         # Read the file of configuration

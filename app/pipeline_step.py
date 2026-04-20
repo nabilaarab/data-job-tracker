@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from analysis.analyzer import AnalyzerConfig, AnalyzerKeyWord, AnalyzerLLM
-from etl.extract.extract_adapter import ExtractAdapter
-from etl.extract.extract_adapter_api_job_cloud import ExtractAdapterAPIJobCloud
-from etl.extract.extract_adapter_library_jobspy import ExtractAdapterLibraryJobSpy
-from etl.load.load_strategy_excel import LoadStrategyExcel
+from extract.extract_adapter import ExtractAdapter
+from extract.extract_adapter_api_job_cloud import ExtractAdapterAPIJobCloud
+from extract.extract_adapter_library_jobspy import ExtractAdapterLibraryJobSpy
+from load.load_strategy_excel import LoadStrategyExcel
 from lxml import html
 from models import PipelineContext
 from pipeline_config import LLM_MODEL, LLM_PROMPT_OUTPUT, LLM_PROMPT_SYSTEM, LLM_PROMPT_USER
@@ -21,7 +21,7 @@ class PipelineStep(ABC):
         pass
 
     @staticmethod
-    def _get_latest_jobs(path_folder: str = "etl/output/") -> pd.DataFrame:
+    def _get_latest_jobs(path_folder: str = "output/etl/") -> pd.DataFrame:
         return pd.read_excel(get_latest_file(path_folder))
 
 class PipelineStepInitContextJobOffers(PipelineStep):
@@ -191,7 +191,9 @@ class PipelineStepLoadInExcel(PipelineStep):
         """
         """
         LoadStrategyExcel.load(
-            df=context.data
+            df=context.data,
+            path_folder=context.path_folder,
+            file_name_beginning=context.file_name_beginning
         )
 
         return context
@@ -216,7 +218,10 @@ class PipelineStepJobAnalyzerLLM(PipelineStep):
             scores.append(result)
             
         df["score_llm"] = scores
-        df.to_excel("analysis/output/test.xlsx", index=False)
+        #df.to_excel("output/analysis/test.xlsx", index=False)
+
+        context.path_folder = "output/analysis"
+        context.file_name_beginning = "analyze_"
 
         return context
 
@@ -231,7 +236,7 @@ class PipelineStepJobAnalyzerLLM(PipelineStep):
         )
 
         analyzer_config.prompt_user_content = analyzer_config.prompt_user_content.format(
-            resume=read_file("analysis/input/resume.local.txt"),
+            resume=read_file("input/analysis/resume.local.txt"),
             # job_description=read_file("analysis/input/description.txt")
             job_description=job_description
         )
@@ -248,7 +253,7 @@ class PipelineStepJobAnalyzerKeyWords(PipelineStep):
     @classmethod
     def run(cls, context: PipelineContext):
         analyzer_config = AnalyzerConfig(
-            load_key_words("analysis/input/keywords.txt"),
+            load_key_words("input/analysis/keywords.txt"),
             None,
             None,
             None,
@@ -266,6 +271,9 @@ class PipelineStepJobAnalyzerKeyWords(PipelineStep):
             scores.append(result)
 
         df["score_keyword"] = scores
-        df.to_excel("analysis/output/test_keyword.xlsx", index=False)
+        #df.to_excel("output/analysis/test_keyword.xlsx", index=False)
+        context.data = df
+        context.path_folder = "output/analysis"
+        context.file_name_beginning = "analyze_"
 
         return context

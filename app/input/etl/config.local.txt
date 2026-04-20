@@ -1,0 +1,40 @@
+############################################################
+#  CONFIGURATION DE l'ETL D'OFFRES D'EMPLOI
+############################################################
+
+
+######################## Paramètres de la phase d'extraction ########################
+
+# Sites used : Linkedin, Indeed, jobs.ch, jobup.ch
+site_names = Linkedin, Indeed
+
+# Localisation des offres d'emploi
+locations = Lyon:France, Genève:Switzerland, Lausanne:Switzerland
+
+# Périmètre en km autour de chaque ville (laisser vide = pas de filtre)
+radius_km = 50
+
+# --- Filtres de type de poste ---
+# full_time | part_time | contract | internship | all
+job_type = all
+
+# --- Expérience ---
+# internship | entry_level | associate | mid_senior | director | all
+experience_level = all
+
+# --- Télétravail ---
+# on_site | remote | hybrid | all
+remote_filter = all
+
+# --- Date de publication ---
+posted_within_days = 30
+
+# --- Nombre max d'offres à récupérer par plateforme ---
+max_results_per_platform = 5
+
+# --- Proxies ---
+# use_proxies = true pour activer la rotation de proxies
+# proxies     = liste host:port séparées par des virgules
+# Free tier : webshare.io, proxyscrape.com
+use_proxies = false
+#proxies = nabildev:moimeme22@31.59.20.176:6754, nabildev:moimeme22@23.95.150.145:6114, nabildev:moimeme22@198.23.239.134:6540, nabildev:moimeme22@45.38.107.97:6014, nabildev:moimeme22@107.172.163.27:6543, nabildev:moimeme22@198.105.121.200:6462, nabildev:moimeme22@216.10.27.159:6837, nabildev:moimeme22@142.111.67.146:5611, nabildev:moimeme22@191.96.254.138:6185, nabildev:moimeme22@31.58.9.4:6077

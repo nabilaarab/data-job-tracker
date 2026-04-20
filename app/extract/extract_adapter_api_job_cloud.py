@@ -2,11 +2,11 @@ import logging
 import pandas as pd
 import random
 from datetime import datetime, timedelta
-from etl.extract.constants import JOBCLOUD__REGION_IDS
-from etl.extract.extract_adapter import ExtractAdapter
-from etl.models import ETLConfig
+from extract.constants import JOBCLOUD__REGION_IDS
+from extract.extract_adapter import ExtractAdapter
+from models import PipelineContext
 from typing import Any, Dict, List, Optional
-from etl.extract.utils import html_to_text, requests_with_retry
+from extract.utils import html_to_text, requests_with_retry
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
     # function: request ------------------------------------------------------------------------
     @staticmethod
     def request(
-        etl_config:     ETLConfig,
+        etl_config:     PipelineContext,
         fetch_jobup:    bool = True,
         fetch_jobs:     bool = True
     ) -> pd.DataFrame:
@@ -53,7 +53,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
 
     # function: __requestion_one_location_keyword ---------------------------------------------------
     def __requestion_one_location_keyword(
-            etl_config:     ETLConfig,
+            etl_config:     PipelineContext,
             location:       str, 
             key_word:       str,
             fetch_jobup:    bool = True,
@@ -99,7 +99,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
     # function: _request_one_websitedata ------------------------------------------------------------
     @staticmethod
     def _request_one_websitedata(
-        etl_config:     ETLConfig,
+        etl_config:     PipelineContext,
         location:       str, 
         key_word:       str,
         url_search:     str,
@@ -140,7 +140,7 @@ class ExtractAdapterAPIJobCloud(ExtractAdapter):
     # function: _request_get_list_offers ------------------------------------------------------------
     @staticmethod
     def _request_get_list_offers(
-            etl_config: ETLConfig,
+            etl_config: PipelineContext,
             location:   str,
             key_word:   str,
             url_api:    str
